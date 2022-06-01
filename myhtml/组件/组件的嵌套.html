@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>组件的嵌套</title>
+    <!-- 引入vue.js -->
+    <script type="text/javascript" src="../../js/vue.js"></script>
+
+    <!-- vue渲染流程：
+    1、先生成虚拟dom；
+    2、将虚拟dom给到vue编译；
+    3、vue将编译好的真实dom渲染到界面；
+    -->
+
+</head>
+<body>
+    <!-- 准备好一个容器 -->
+    <div id="root">
+        <School></School>
+    </div>
+    <!-- 
+        关于VueComponent 的说明：
+            1、在组件配置中：data函数、methods中的函数、watch中的函数、computed中的函数，他们的this都是VueComponent实例对象
+            2、vue实例组件配置中：data函数、methods中的函数、watch中的函数、computed中的函数，他们的this都是vm实例对象
+            3、每个组件的引用都是一个新的独立的VueComponent实例
+            
+     -->
+</body>
+<script type="text/javascript" >
+    Vue.config.productionTip = false  //阻止浏览器控制台生产配置错误
+
+    const stu = {  // 定义一个组件student  ,简写方式，在单文件组件中常用
+        template:`
+        <div>
+            <h2>{{name}}</h2>
+            <h2>{{age}}</h2>
+        </div>
+        `,
+        data() {
+            return {
+                name:"李明章",
+                age:30
+            }
+        },
+    }
+
+    const School = Vue.extend({  // 定义一个组件school
+        // 模板里嵌套引用
+        template:`
+        <div>
+            <h2>{{name}}</h2>
+            <h2>{{addr}}</h2>
+            <Student></Student>
+        </div>
+        `,
+        data() {
+            return {
+                name:"华电",
+                addr:"保定"
+            }
+        },
+        components:{
+            Student:stu  //嵌套组件
+        }
+    })
+
+    //vm根实例组件
+    const vm = new Vue({
+        el:"#root",
+        //注册组件
+        components:{
+            School
+        }
+    })
+
+</script>
+</html>

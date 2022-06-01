@@ -2,12 +2,12 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>vue组件化编程</title>
+    <title>模板</title>
     <!-- 引入vue.js -->
     <script type="text/javascript" src="../../js/vue.js"></script>
 
     <!-- vue渲染流程：
-    1、先由vue生成虚拟dom（存储在内存中）；
+    1、先生成虚拟dom；
     2、将虚拟dom给到vue编译；
     3、vue将编译好的真实dom渲染到界面；
     -->
@@ -21,6 +21,20 @@
 </body>
 <script type="text/javascript" >
     Vue.config.productionTip = false  //阻止浏览器控制台生产配置错误
+
+    //声明一个构造函数
+    function Demo(){  
+        this.a = 0
+        this.b = 1
+    }
+    //实例化构造函数
+    const demo = new Demo()
+
+    // 通过prototyp为构造函数添加一个属性x
+    Demo.prototype.x = 99  //Demo.prototype所谓的原型对象（显式）
+
+    console.log(demo.__proto__.x)  //demo.__proto__也是原型对象（隐式）
+    // 显示添加的可以通过隐式方式找到对应属性
 
 
 </script>
