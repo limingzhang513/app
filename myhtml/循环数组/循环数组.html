@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>循环数组</title>
+    <!-- 引入Vue -->
+    <script type="text/javascript" src="../../js/vue.js"></script>
+</head>
+<body>
+    <!-- 准备好一个容器 -->
+    <div id="root">
+        <input type="text" placeholder="请输入要查询的人员姓名" v-model="keyword">
+        <ul>
+            <li v-for="p in filterPersions" :key="p.id">{{p.name}}-{{p.age}}</li>
+        </ul>
+    </div>
+
+    <!-- 操作vue实例 -->
+    <script type="text/javascript" >
+        Vue.config.productionTip = false  //阻止浏览器控制台生产配置错误
+        const vm = new Vue({
+            el:"#root",
+            data: {
+                keyword: "",
+                persions: [
+                    {id: 001, name: "李明章", age: 30},
+                    {id: 002, name: "李仟瑶", age: 5},
+                    {id: 003, name: "李仟硕", age: 1.5},
+                    ]
+                },
+            computed:{  //计算属性，和data属性同样可以作为vue实例的直接属性点出来，计算属性加载vue实例时就被加载调用
+                filterPersions(){
+                    console.log("filterPersions被调用了")
+                    return this.persions.filter((p)=>{  //内置方法filter的使用，p表示遍历的每个对象
+                        return p.name.indexOf(this.keyword) !== -1  // indexOf 在字符串中搜索是否包含传入的参数
+                    })
+                }
+            }
+            } 
+        )
+    </script>
+</body>
+</html>

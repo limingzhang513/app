@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>vue监测对象数据</title>
+    <!-- 引入Vue -->
+    <script type="text/javascript" src="../../js/vue.js"></script>
+</head>
+<body>
+    <!-- 准备好一个容器 -->
+    <div id="root">
+        <h2>学校名称：{{name}}</h2>
+        <h2>学校地址：{{address}}</h2>
+        <hr/>
+        <button @click="addsex">点击添加性别</button>
+        <h2>姓名：{{student.name}}</h2>
+        <!-- v-if赋值false或空或unfinished，表示不显示；有值则显示 -->
+        <h2 v-if="student.sex">性别：{{student.sex}}</h2>
+        <h2>年龄：真实{{student.age.rage}}, 对外{{student.age.sage}}</h2>
+        <h2>朋友们</h2>
+        <ul>
+            <!-- v-if，v-else-if，v-else的使用 -->
+            <li v-for="(f, index) of student.friends" :key="index">
+                {{f.name}}-{{f.age}}
+                <hr/>
+                <h3>爱好：</h3>
+                <h4 v-if="f.age > 3">
+                    <ul>
+                        <li v-for="(h, index) of student.hobbys" :key="index">
+                            <p>{{h}}</p>
+                        </li>
+                    </ul>
+                </h4>
+                <h4 v-else-if="f.age === 2"> lllll</h4>
+                <h4 v-else>
+                     孩子还小,没爱好
+                </h4>
+            </li>
+        </ul>
+    </div>
+
+    <!-- 操作vue实例 -->
+    <script type="text/javascript" >
+        Vue.config.productionTip = false  //阻止浏览器控制台生产配置错误
+        new Vue({
+            el:"#root",
+            data: {
+                name: "华夏银行",
+                address: "万达广场",
+                student:{
+                    name: "李明章",
+                    age: {
+                        rage: 31,
+                        sage: 29
+                    },
+                    hobbys:['足球','篮球','前端','后端','运维'],
+                    friends: [
+                        {name:"李十一", age: 5},
+                        {name: "李大硕", age: 1.5}
+                    ]
+                }
+            },
+            methods: {
+                addsex() {
+                    this.$set(this.student, 'sex', '男'); //为vue实例对象内属性灵活添加嵌套属性，该方式不能直接对vue实例或者实例的data(第一层属性)添加属性
+                },
+            },
+            computed:{
+                // 是计算属性
+                //此处有方法提示了
+            },
+            watch:{
+                // 监控属性
+                //此处有方法提示了
+            }
+            }
+        )
+    </script>
+</body>
+</html>

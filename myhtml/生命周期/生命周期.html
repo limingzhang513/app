@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>生命周期</title>
+    <!-- 引入vue.js -->
+    <script type="text/javascript" src="../../js/vue.js"></script>
+
+    <!-- vue渲染流程：
+    1、先由vue生成虚拟dom（存储在内存中）；
+    2、将虚拟dom给到vue编译；
+    3、vue将编译好的真实dom渲染到界面；
+    -->
+
+</head>
+<body>
+    <!-- 准备好一个容器 -->
+    <div id="root">
+        <!-- 在标签属性里使用vue实例的属性需要加‘：’，表示动态加载， 如果k-v一样可以简写-->
+        <h2 :style="{opacity}">欢迎学习Vue</h2>
+        <h2 :style="{opacity: ipacity}">:style未简写的</h2>
+        <button @click="stop">停止若隐若现</button>
+        <button @click="guiwei">透明度设置为1</button>
+
+        <button @click="destroyvm">点击此处销毁vm</button>
+    </div>
+    <!-- 
+        生命周期：
+            1、又名：生命周期回调函数、生命周期函数、生命周期钩子
+            2、又是什么：Vue在关键时刻帮我们调用的一些特殊名称的函数
+            3、生命周期函数的名字不可更改，但函数的具体内容是程序员根据需求编写的
+            4、生命周期函数中的this指向是vm或者组件实例对象；
+
+     -->
+</body>
+<script type="text/javascript" >
+    Vue.config.productionTip = false  //阻止浏览器控制台生产配置错误
+    const vm = new Vue({
+        el:"#root",  //el 在created方法之后会引用
+        // 模板，一般不这么用，在组件部分有使用
+        // template: `
+        // <div>
+        //     <h2 :style="{opacity}">欢迎学习Vue</h2>
+        //     <h2 :style="{opacity: ipacity}">:style未简写的</h2>
+        // </div>
+        // `,
+        data() {
+            return {
+                ipacity:1,
+                opacity:1,
+            }
+        },
+        methods: {
+            destroyvm(){
+                this.$destroy()  // 销毁vm
+            },
+            stop(){
+                clearInterval(this.interval_id)  //引用vue定时任务id，停止定时任务
+            },
+            guiwei(){
+                this.ipacity = 1
+                this.opacity = 1
+            }
+        },
+        // 挂载，和data是同级的vue属性，函数形式，表示在vue编译好真实的dom，初次挂载（加载）到页面后再调用，只调用一次；
+        // mounted() {
+        //     setInterval(() => {  // 定时任务
+        //         this.ipacity -= 0.01
+        //         this.opacity -= 0.01
+        //         if (this.ipacity <= 0 || this.opacity <= 0){
+        //             this.ipacity = 1
+        //             this.opacity = 1
+        //         }
+        //     }, 16);
+        // },
+
+        // ★★★★★以下是vue生命周期中的钩子函数(即每次vue实例化渲染界面，过程必须执行的函数)★★★★★
+
+        //生命周期钩子函数第一步：
+        beforeCreate() {
+            
+            console.log("此方法是在vue实例初始化数据监测和数据代理(vm._data)之前执行; 主要是初始化生命周期和事件")
+            // debugger;  // 可以使用该关键字做断点
+        },
+
+        //生命周期钩子函数第二步：
+        created() {
+            
+            console.log("此方法是开始初始化数据监测和数据代理,即创建(vm._data), 还有methods中的方法")
+        },
+
+        //中间有个vue把虚拟dom加载到内存中的过程
+
+        //生命周期钩子函数第三步：
+        beforeMount() {
+            console.log("此方法是在vue开始编译虚拟dom前执行,在此处修改了vm实例数据,最终不会影响界面变化,因为内存中的dom没有变化")
+        },
+
+        //中间有个vue加载虚拟dom到界面的过程
+
+        //生命周期钩子函数第四步：
+        mounted() {
+            // console.log("此方法是vue是将内存中的虚拟dom已经挂载到页面后,此时可以进行一些定时任务,网络请求,订阅消息, 绑定自定义事件等操作")
+            this.interval_id = setInterval(() => {  // 定时任务, 返回任务id存储到vue实例
+                this.ipacity -= 0.01
+                this.opacity -= 0.01
+                if (this.ipacity <= 0 || this.opacity <= 0){
+                    this.ipacity = 1
+                    this.opacity = 1
+                }
+            }, 16);
+        },
+
+        //生命周期钩子函数第五步：
+        beforeUpdate() {
+            console.log("此方法是mounted方法后数据有更新时触发,触发后,数据更新了,但界面还没有变化")
+        },
+
+        //中间有个更新到页面的过程
+
+        //生命周期钩子函数第六步：
+        updated() {
+            console.log("此方法是数据和页面都是新的")
+        },
+
+        // ★★★在调用vm.$destroy()时，以下两个方法被触发★★★
+        //生命周期钩子函数第七步：
+        beforeDestroy() {
+            //关闭定时任务，自定义事件，订阅消息等
+            console.log("此方法是在销毁data,methods,指令等等之前的操作，此时这些属性还处于可用状态")
+            clearInterval(this.interval_id)  //关闭定时任务，一般在销毁时清除那使用
+        },
+
+        //生命周期钩子函数第八步：
+        destroyed() {
+            console.log("销毁vm")
+        },
+    })
+
+</script>
+</html>

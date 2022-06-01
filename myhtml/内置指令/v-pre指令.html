@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>v-pre指令</title>
+    <!-- 引入vue.js -->
+    <script type="text/javascript" src="../../js/vue.js"></script>
+</head>
+<body>
+    <!-- 准备好一个容器 -->
+    <div id="root">
+        <!-- v-pre指令表示当前标签不参与vue的编译过程，可以加快编译速度 -->
+        <h2 v-pre>初始n值</h2>
+
+        <!-- 有插值语法或者其他指令语法等等应用了vue内置语法的标签，不使用v-pre -->
+        <h2>增长n值: {{n}}</h2> 
+
+        <!-- 点击事件两种绑定写法 -->
+        <button v-on:click="n++">点我+1</button>
+        <button @click="n++">点我也+1</button>
+    </div>
+</body>
+<script type="text/javascript" >
+    Vue.config.productionTip = false  //阻止浏览器控制台生产配置错误
+    const vm = new Vue({
+        el:"#root",
+        data() {
+            return {
+                n:1,
+            }
+        },
+    })
+
+</script>
+</html>

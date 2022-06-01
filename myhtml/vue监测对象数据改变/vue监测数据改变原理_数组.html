@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>vue监测数据改变原理_数组</title>
+    <style>
+        [v-clocak]{
+            display: inline;
+        }
+    </style>
+    <!-- 引入Vue -->
+    <script type="text/javascript" src="../../js/vue.js"></script>
+</head>
+<body>
+    <!-- 准备好一个容器 -->
+    <div id="root">
+        <h2>学校名称：{{name}}</h2>
+        <h2>学校地址：{{address}}</h2>
+        <hr/>
+        <button @click="addsex">点击添加性别</button>
+        <h2>姓名：{{student.name}}</h2>
+        <!-- v-if赋值false或空或unfinished，表示不显示；有值则显示 -->
+        <h2 v-if="student.sex">性别：{{student.sex}}</h2>
+        <h2>年龄：真实{{student.age.rage}}, 对外{{student.age.sage}}</h2>
+        <h2>朋友们</h2>
+        <ul>
+            <!-- v-if，v-else-if，v-else的使用 -->
+            <li v-for="(f, index) of student.friends" :key="index">
+                {{f.name}}-{{f.age}}
+                <hr/>   
+                <h4 v-if="f.age > 3">
+                    <span>
+                        爱好：
+                        <!-- 引用上一个标签的循环变量作为标签属性条件 -->
+                        <input type="text" v-show="f.age === 4">  
+                        <!-- 指定类属性,且使用了动态绑定属性 -->
+                        <input type="text" placeholder="请输入新的爱好" :class="myclass">  
+                        <button @click="addhobby">添加爱好 </button>
+                    </span> <br><br>
+                    <ul>
+                        <li v-for="(h, index) of student.hobbys" :key="index">
+                            <!-- 点击事件函数传参 -->
+                            {{h}} <span></span> <button @click="delhobby(h)">删除</button>
+                        </li>
+                    </ul>
+                </h4>
+                <h4 v-else-if="f.age === 2"> lllll</h4>
+                <h4 v-else>
+                     孩子还小,没爱好
+                </h4>
+            </li>
+        </ul>
+    </div>
+
+    <!-- 操作vue实例 -->
+    <script type="text/javascript" >
+        Vue.config.productionTip = false  //阻止浏览器控制台生产配置错误
+        const vm = new Vue({
+            el:"#root",
+            data: {
+                name: "华夏银行",
+                address: "万达广场",
+                newhobby: '',
+                myclass: "addh",
+                student:{
+                    name: "李明章",
+                    age: {
+                        rage: 31,
+                        sage: 29
+                    },
+                    hobbys:['足球','篮球','前端','后端','运维'],
+                    friends: [
+                        {name:"李十一", age: 5},
+                        {name: "李大硕", age: 1.5}
+                    ]
+                }
+            },
+            methods: {
+                addsex() {
+                    this.$set(this.student, 'sex', '男'); //为vue实例对象内属性灵活添加嵌套属性，该方式不能直接对vue实例或者实例的data(第一层属性)添加属性
+                },
+                addhobby(){
+                    // dom语法获取标签元素
+                    let addhobby = document.getElementsByClassName("addh")[0].value;
+                    if(this.student.hobbys.indexOf(addhobby) === -1){
+                        this.student.hobbys.unshift(addhobby)  //前面插入一个值
+                    }
+                    console.log("....") 
+                },
+                delhobby(value){
+                    console.log(value)
+                    if (this.student.hobbys.indexOf(value) !== -1){
+                        this.student.hobbys.splice(this.student.hobbys.indexOf(value),1)
+                    }
+                }
+            },
+            computed:{
+                // 是计算属性
+                //此处有方法提示了
+            },
+            watch:{
+                // 监控属性
+                //此处有方法提示了
+            }
+            }
+        )
+    </script>
+</body>
+</html>

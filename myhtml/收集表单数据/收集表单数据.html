@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>收集表单数据</title>
+    <script type="text/javascript" src="../../js/vue.js"></script>
+</head>
+<body>
+    <div id="root">
+        <!-- vue为提交表单数据绑定事件submit(提交事件) prevent表示阻止默认行为--提交后默认刷新界面的行为 -->
+        <form @submit.prevent="submitFormData">
+            <!-- 关联input框和账号，点击账号也能获取input框焦点 -->
+            <label for="zhanghao">账号：</label>
+            <!-- v-model.trim表示去掉input输入框内输入内容的前后空格 -->
+            <input type="text" id="zhanghao" v-model.trim="userInfo.account"> <br><br>
+            <label for="mima">密码：</label>
+            <input type="password" id="mima" v-model.trim="userInfo.password"> <br><br>
+            性别：
+            <!-- radio单选情况，要指定value值 -->
+            男<input type="radio" name="sex" value="man" v-model="userInfo.sex">
+            女<input type="radio" name="sex" value="women" v-model="userInfo.sex"> <br><br>
+            年龄：
+            <!-- number类型限制输入框只能输入数字；v-model.number限制输入的数字是int类型 -->
+            <input type="number" v-model.number="userInfo.age"> <br><br>
+            爱好：
+            <!-- checkbox多选情况v-model绑定的属性必须为数组[],同时要指定value值-->
+            学习<input type="checkbox" v-model="userInfo.hobby" value="study">
+            打游戏<input type="checkbox" v-model="userInfo.hobby" value="game">
+            吃饭<input type="checkbox" v-model="userInfo.hobby" value="eating">  <br><br>
+            所属校区：
+            <!-- 下拉框选择，v-model配置在select标签 -->
+            <select v-model="userInfo.city">
+                <option value="">请选择校区</option>
+                <option value="beijing">北京</option>
+                <option value="shanghai">上海</option>
+                <option value="shenzhen">深圳</option>
+                <option value="xiongan">雄安</option>
+            </select> <br><br>
+            其他信息：
+            <!-- v-model.lazy表示当标签失去焦点时再收集数据 -->
+            <textarea rows="10" v-model.lazy="userInfo.other"></textarea> <br><br>
+            <input type="checkbox" v-model="userInfo.agree">阅读并接受<a href="https:www.baidu.com">《用户协议》</a> <br><br>
+            <button>提交</button>
+
+        </form>
+    </div>
+</body>
+<script type="text/javascript" >
+    Vue.config.productionTip = false  //阻止浏览器控制台生产配置错误
+    const vm = new Vue({
+        el:"#root",
+        data() {
+            return {
+                userInfo: {
+                    account:'',
+                    password:'',
+                    sex:'man',
+                    age:'',
+                    hobby:[],
+                    city:'beijing',  // 北京 是默认值
+                    other:'',
+                    agree:'',
+                }
+            }
+        },
+        methods: {
+            submitFormData(){
+                //将数据转换为json字符串，可以ajax送给后端
+                console.log(JSON.stringify(this.userInfo))
+            }
+        },
+
+    }
+    )
+</script>
+</html>

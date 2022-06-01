@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>过滤器</title>
+    <script type="text/javascript" src="../../js/vue.js"></script>
+    <!-- 下载地址：http://cdn.staticfile.org/moment.js/2.24.0/moment.js -->
+    <script type="text/javascript" src="../../js/moment.js"></script>
+</head>
+<body>
+    <!-- 准备好一个容器 -->
+    <div id="root">
+        <h2>显示格式化之后的时间</h2>
+        <!-- 第一种方式 -->
+        <h3>计算属性-时间：{{fmttime}}</h3>
+        <!-- 第二种方式 -->
+        <h3>method-时间：{{getFmtTime()}}</h3>
+        <!-- 第三种方式 time就是第一个参数-->
+        <h3>过滤器-时间：{{time | timeFormater}}</h3>
+        <!-- 多参数 自定义格式-->
+        <h3>过滤器自定义格式-时间：{{time | timeFormater("YYYY_MM_DD")}}</h3>
+        <!-- 多过滤器传参 管道符前边返回值作为后边的参数-->
+        <h3>过滤器多参数-时间：{{time | timeFormater("YYYY_MM_DD") | myslice}}</h3>
+    </div>
+    <div id="root2">
+        <h3>第二个vue实例测试过滤器: {{time | myslice}}</h3>
+    </div>
+</body>
+<script type="text/javascript" >
+    Vue.config.productionTip = false  //阻止浏览器控制台生产配置错误
+    Vue.filter("myslice", function(value){  //将myslice注册为全局过滤器
+        return value.slice(0,4) // 切片的使用 前闭后开，切割前4位
+    })
+    const vm = new Vue({
+        el:"#root",
+        data() {
+            return {
+                time: Date.now()  // 获取当前时间戳
+            }
+        },
+        computed:{
+            fmttime(){
+                // moment.js 是时间格式化的插件：http://cdn.staticfile.org/moment.js/2.24.0/moment.js
+                return moment(this.time).format("YYYY年MM月DD日 HH:mm:ss")
+            }
+        },
+        methods: {
+            getFmtTime(){
+                return moment(this.time).format("YYYY年MM月DD日 HH:mm:ss")
+            }
+        },
+        // 局部过滤器，就是一个函数,value就是第一个参数(默认)，局部过滤器只作用在当前vue实例
+        filters: {
+            timeFormater(value, str_fmt="YYYY年MM月DD日 HH:mm:ss"){  //设置默认格式
+                return moment(value).format(str_fmt)
+            }
+        }
+    })
+    // 声明另一个vue实例
+    const vm2 = new Vue({
+        el:"#root2",
+        data:{
+            time: Date.now().toString(), // toString()，转换为字符串类型
+        }
+    })
+
+</script>
+</html>

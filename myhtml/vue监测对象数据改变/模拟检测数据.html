@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>模拟vue监测数据</title>
+    <!-- 引入Vue -->
+    <!-- <script type="text/javascript" src="../../js/vue.js"></script> -->
+</head>
+<body>
+    <!-- 准备好一个容器 -->
+    <div id="root">
+        <h2>学校名称：{{name}}</h2>
+        <h2>学校地址：{{address}}</h2>
+    </div>
+
+    <!-- 操作vue实例 -->
+    <script type="text/javascript" >
+
+        let data = {
+            name: "华夏",
+            address: "万达广场-B座"
+        }
+        const obs = new Observer(data)
+        console.log(obs)
+
+        let vm = {}
+        vm._data = data = obs
+
+        function Observer(obj){
+            const keys = Object.keys(obj)  //获取对象的所有key，区别python：不是用对象本身去点keys
+            keys.forEach((k)=>{
+                Object.defineProperty(this, k, {  //this是实例Observer
+                    get(){
+                        return obj[k]
+                    },
+                    set(val){
+                        obj[k] = val
+                    }
+
+                })
+            })
+        }
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <!-- <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
+    <title>李明章</title>
+    <link rel="shortcut icon" type="image/x-icon" href="https://www.jd.com/favicon.ico">
+    <!-- <script type="text/javascript" src="../js/vue.js"></script> -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+</head>
+<body>
+    <div id="root">
+        <h1>{{name}}--{{age}}</h1>
+        <h1>{{school.name}}--{{school.age}}</h1>
+        <a v-bind:href="url">京东商城</a><br>
+    </div>
+
+
+
+    <script type="text/javascript">
+        Vue.config.productionTip = false
+        // Vue.config.productionTip = true
+        const vm = new Vue({
+            el:"#root",
+            data:{
+                name:"李明章",
+                age:19,
+                url: "https://www.jd.com",
+                school:{
+                    name:"ADS",
+                    age:78,
+                    test:"测试双向"
+                }
+            }
+        })
+        // vm.$mount("#root")
+    </script>
+</body>
+
+</html>

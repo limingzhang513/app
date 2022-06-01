@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>排序数组</title>
+    <!-- 引入Vue -->
+    <script type="text/javascript" src="../../js/vue.js"></script>
+</head>
+<body>
+    <!-- 准备好一个容器 -->
+    <div id="root">
+        <!-- v-model双向绑定 -->
+        <input type="text" placeholder="请输入要查询的人员姓名" v-model="keyword">
+        <!-- 这里点击事件为vue的sorttype属性赋值-->
+        <button @click="sorttype = 1">升序</button> 
+        <button @click="sorttype = 2">降序</button>
+        <button @click="sorttype = 0">恢复</button>
+        <div v-if="isShow">
+            <button @click="updatelmz" >更新明章的信息</button>
+        </div>
+        
+        <ul>
+            <li v-for="p of filterPersions" :key="p.id">
+                {{p.name}}-{{p.age}}
+                <input type="text">
+            </li>
+        </ul>
+    </div>
+
+    <!-- 操作vue实例 -->
+    <script type="text/javascript" >
+        Vue.config.productionTip = false  //阻止浏览器控制台生产配置错误
+        const vm = new Vue({
+            el:"#root",
+            data: {
+                isShow: false,
+                keyword: "",
+                sorttype: 0,  // 初始值
+                persions: [
+                    {id: 001, name: "李明章", age: 30},
+                    {id: 002, name: "李仟瑶", age: 5},
+                    {id: 003, name: "李仟硕", age: 1.5},
+                    {id: 004, name: "杨白雪", age: 29},
+                    ]
+                },
+            methods:{
+                updatelmz(){  
+                    //数组的元素修改方式
+                    if (this.filterPersions instanceof Array){
+                        for (let i in this.filterPersions){
+                            console.log("更新方法进来了")
+                            if (this.filterPersions[i].name === "李明章"){
+                                console.log("条件成立", i)
+                                //vue实例_data自带的数组属性方法与Array的属性方法不一致
+                                //举例：vm._data.persions.push !== Array.prototype.push   返回true
+                                this.persions.splice(0,1,{id: 001, name: "李先生", age: 100})
+                            }
+                        }
+                    }
+                }
+            },
+
+            computed:{  //计算属性，和data属性同样可以作为vue实例的直接属性点出来，计算属性加载vue实例时就被加载调用
+                filterPersions(){  // 计算属性会监控每一次data内属性变化
+                    console.log("filterPersions被调用了")
+                    this.isShow = false
+                    const arr = this.persions.filter((p)=>{  //内置方法filter的使用，p表示遍历的每个对象
+                        return p.name.indexOf(this.keyword) !== -1  // indexOf 在字符串中搜索是否包含传入的参数
+                    })
+                    // 判断是否需要排序
+                    if (this.sorttype){
+                        console.log("触发排序")
+                        arr.sort((p1, p2)=>{  // sort 方法两个参数代表排序对象，对象点出的属性表示排序的条件，p1-p2:p1到p2表示升序，相反降序
+                            return this.sorttype === 1 ? p1.age-p2.age : p2.age-p1.age  // 三元表达式
+                        })
+                    }
+
+                    // vue数组操作方式详解：https://blog.csdn.net/weixin_50946965/article/details/122961419
+                    if(arr instanceof Array){  //判断是否为一个数组类型
+                        console.log('是数组', arr)
+                        const new_arr = []
+                        // vue的for循环详解：https://blog.csdn.net/qq_41863697/article/details/115359076
+                        for (let i of arr){  // for 后 （条件）{循环体} of表示i是对象；in表示i是索引
+                            console.log(i)
+                            if (i.name === "李明章"){
+                                console.log(i.name)
+                                new_arr.push(i)  // 数组追加元素
+                                this.isShow = true
+                            }
+                        }
+                    }
+                    return arr
+                }
+            }
+            } 
+        )
+    </script>
+</body>
+</html>

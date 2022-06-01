@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>v-once指令</title>
+    <!-- 引入vue.js -->
+    <script type="text/javascript" src="../../js/vue.js"></script>
+</head>
+<body>
+    <!-- 准备好一个容器 -->
+    <div id="root">
+        <!-- v-once表示限制标签的{{}}值只生效一次 -->
+        <h2 v-once>初始n值: {{n}}</h2>
+        <h2>增长n值: {{n}}</h2>
+
+        <!-- 点击事件两种绑定写法 -->
+        <button v-on:click="n++">点我+1</button>
+        <button @click="n++">点我也+1</button>
+    </div>
+</body>
+<script type="text/javascript" >
+    Vue.config.productionTip = false  //阻止浏览器控制台生产配置错误
+    const vm = new Vue({
+        el:"#root",
+        data() {
+            return {
+                n:1,
+            }
+        },
+    })
+
+</script>
+</html>

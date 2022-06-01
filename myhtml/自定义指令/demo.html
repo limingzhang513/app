@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <button id="subm"> 点我添加一个输入框</button>
+    <script type="text/javascript">
+        const btn = document.getElementById("subm")
+        btn.onclick = ()=>{
+            const input = document.createElement("input")
+            document.body.appendChild(input)
+            input.focus()  //获取input输入的焦点
+        }
+    </script>
+    
+</body>
+</html>

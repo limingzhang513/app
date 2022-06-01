@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>初识</title>
+    <script type="text/javascript" src="../js/vue.js"></script>
+</head>
+<body>
+    <!-- 准备好一个容器 -->
+    <div id="root2">
+        <input type="text" :value="name"><br/>  //绑定 里边需要使用变量，也就是表达式
+        <input type="text" v-bind:value="name"><br/>
+        <input type="text" v-model:value="src.name"><br/>
+        <input type="text" v-model="src.ddd"><br/>
+        <a :href="url">京东商城</a>
+    </div>
+
+
+    <script type="text/javascript" >
+        Vue.config.productionTip = false  //阻止浏览器控制台生产配置错误
+        new Vue({
+            el:"#root2",
+            data: function(){
+                return {
+                    name:"lll",
+                    url:"https://www.jd.com",
+                    src:{
+                        name:"aaa",
+                        ddd:"xxx"
+                }
+            }
+                }
+
+        }
+        )
+    </script>
+</body>
+</html>

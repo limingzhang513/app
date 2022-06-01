@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>自定义指令</title>
+    <style></style>
+    <!-- 引入vue.js -->
+    <script type="text/javascript" src="../../js/vue.js"></script>
+</head>
+<body>
+    <!-- 准备好一个容器 -->
+    <div id="root">
+        <!-- input 是行级的 -->
+        <input type="text">
+        <input type="text">
+
+        <h2>初始值：{{n}}</h2>
+        <h2>
+            放大10被的值:
+            <span v-big="n"></span>
+        </h2>
+        <button @click="n++">点我加1</button> <br><br>
+        <input type="text" v-fbind:value="n">
+    </div>
+</body>
+<script type="text/javascript" >
+    Vue.config.productionTip = false  //阻止浏览器控制台生产配置错误
+    Vue.directive('fbind', {  //全局指令
+                // 指令和标签成功绑定时,调用
+                bind(element, binding){  //固定的方法
+                    console.log("bind", this)  //这里的this是window
+                    element.value = binding.value  //input 通过标签对象获取值是点value：element.value
+                },
+                // 指令所在标签被插入页面时，调用
+                inserted(element, binding){  //固定的方法
+                    console.log("inserted")
+                    element.focus()
+                },
+                // 指令所在的模板发生变化时，调用
+                update(element, binding){  //固定的方法
+                    console.log("update")
+                    element.value = binding.value
+                }
+    })
+
+    // vue.directive('big-number', function(element, binding){
+    //     console.log('...')
+    // })
+
+    const vm = new Vue({
+        el:"#root",
+        data() {
+            return {
+                name:"李明章",
+                n:1,
+            }
+        },
+        // 自定义指令使用vue的directives属性
+        directives:{
+            //局部指令，只作用于当前vue实例
+            // big函数何时被调用？1、指令和标签成功绑定时；2、指令所在的模板发生变化
+            big(element, binding){  //第一个参数element表示v-big所在的标签对象；第二个参数binging表示v-big="表达式"，中表达式包含的属性，其中包含值
+                element.innerText = binding.value * 10  // innerText就是dom更改标签值的方式
+            },
+            'big-number'(element, binding){
+                //另一种指令方法书写方式
+            },
+            // 获取光标
+            // fbind:{  //****此处移到了全局指令处，配置方式和过滤器一样
+            //     // 指令和标签成功绑定时,调用
+            //     bind(element, binding){  //固定的方法
+            //         console.log("bind", this)  //这里的this是window
+            //         element.value = binding.value  //input 通过标签对象获取值是点value：element.value
+            //     },
+            //     // 指令所在标签被插入页面时，调用
+            //     inserted(element, binding){  //固定的方法
+            //         console.log("inserted")
+            //         element.focus()
+            //     },
+            //     // 指令所在的模板发生变化时，调用
+            //     update(element, binding){  //固定的方法
+            //         console.log("update")
+            //         element.value = binding.value
+            //     }
+            // }
+
+        }
+    })
+
+
+</script>
+</html>
