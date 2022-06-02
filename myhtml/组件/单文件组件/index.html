@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>index</title>
+    <!-- 引入vue.js -->
+    
+
+    <!-- vue渲染流程：
+    1、先由vue生成虚拟dom（存储在内存中）；
+    2、将虚拟dom给到vue编译；
+    3、vue将编译好的真实dom渲染到界面；
+    -->
+
+</head>
+<body>
+    <!-- 准备好一个容器 -->
+    <div id="root">
+    </div>
+    <!-- 使用vue脚手架后这里不用引入了 -->
+    <!-- <script type="text/javascript" src="../../../js/vue.js"></script>
+    <script type="text/javascript" src="./main.js"></script> -->
+
+    <!-- vue脚手架的官方文档：https://cli.vuejs.org/zh/ -->
+    <!-- windows 全局安装脚手架npm install -g @vue-cli --registry=https://registry.npm.taobao.org -->  
+
+    <!-- 
+        创建项目： vue create 项目名  注意：学习时选择vue2；bable是用于ES6向ES5转换使用的插件；exlint语法检查的；
+        切换到创建的项目目录 cd vue_lmz
+        启动 npm run serve 
+    -->
+    <!-- 
+        启动完成会有如下：
+         DONE  Compiled successfully in 11364ms  //启动成功
+            App running at:
+            - Local:   http://localhost:8080/  //表示本地访问可以使用这个url
+            - Network: http://10.10.2.137:8080/  // 表示局域网内，如果其他人想要访问你的vue项目可以使用这个url
+     -->
+
+</body>
+<script type="text/javascript" >
+    Vue.config.productionTip = false  //阻止浏览器控制台生产配置错误
+
+
+</script>
+</html>
